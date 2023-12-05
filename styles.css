@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Roboto:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #eeedee;
+    color: #d950ae;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 50%;
+}
+
+form {
+    background-color: rgba(215, 214, 215, .3);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    column-gap: 15px;
+}
+
+#location {
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    padding: 10px 15px;
+    border: 2px solid #efc6d4;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color .3s ease;
+}
+
+#location:hover {
+    border-color: #d950ae;
+}
+
+#location:focus {
+    border-color: #d950ae;
+}
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    background-color: #d950ae;
+    color: #eeedee;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #dd62b6;
+}
+
+button:active {
+    background-color: #c3489d;
+}
