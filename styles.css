@@ -16,8 +16,16 @@ body {
     justify-content: center;
 }
 
-.container {
+img {
+    width: 100%;
+    height: auto;
+}
+
+main {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
 }
 
 form {
@@ -40,11 +48,13 @@ form {
     transition: border-color .3s ease;
 }
 
-#location:hover {
+#location:hover,
+#unit:hover {
     border-color: #d950ae;
 }
 
-#location:focus {
+#location:focus,
+#unit:focus {
     border-color: #d950ae;
 }
 
@@ -66,4 +76,118 @@ button:hover {
 
 button:active {
     background-color: #c3489d;
+}
+
+.location {
+    font-weight: bold;
+    background-color: rgba(215, 214, 215, .3);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#unit {
+    width: 50px;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    padding: 5px 0;
+    border: 2px solid #efc6d4;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color .3s ease;
+}
+
+.forecast {
+    background-color: rgba(215, 214, 215, .3);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.forecast > .current {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.current > header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.current-details {
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.current-details > div {
+    display: flex;
+    column-gap: 15px;
+}
+
+.current-details .icon {
+    width: 64px;
+    height: 64px;
+}
+
+.current-details .temperature {
+    display: flex;
+}
+
+.temperature > .current-temperature {
+    font-family: 'Dosis', sans-serif;
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.temperature > .unit {
+    margin: 7px 15px 0 5px;
+}
+
+.temperature > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.temperature .condition {
+    font-weight: bold;
+}
+
+.current-details .more {
+    display: flex;
+}
+
+.more span {
+    font-size: 14px;
+}
+
+.more > .first-column,
+.more > .second-column {
+    width: 50%;
+}
+
+.first-column > div,
+.second-column > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.first-column > div + div,
+.second-column > div + div {
+    margin-top: 15px;
+}
+
+.first-column span:first-child,
+.second-column span:first-child {
+    font-weight: bold;
+}
+
+.first-column > .wind .direction,
+.second-column > .uv-index .level {
+    font-weight: normal;
 }
