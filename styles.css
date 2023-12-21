@@ -10,8 +10,8 @@ body {
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    background-color: #eeedee;
-    color: #d950ae;
+    background-color: #dddbde;
+    color: #3b373b;
     display: flex;
     justify-content: center;
 }
@@ -29,7 +29,7 @@ main {
 }
 
 form {
-    background-color: rgba(215, 214, 215, .3);
+    background-color: #cad4df;
     padding: 15px;
     border-radius: 10px;
     display: flex;
@@ -42,7 +42,7 @@ form {
     font-size: inherit;
     color: inherit;
     padding: 10px 15px;
-    border: 2px solid #efc6d4;
+    border: 2px solid #b1afb1;
     border-radius: 5px;
     outline: none;
     transition: border-color .3s ease;
@@ -50,20 +50,20 @@ form {
 
 #location:hover,
 #unit:hover {
-    border-color: #d950ae;
+    border-color: #3b373b;
 }
 
 #location:focus,
 #unit:focus {
-    border-color: #d950ae;
+    border-color: #3b373b;
 }
 
 button {
     font-family: inherit;
     font-size: inherit;
     font-weight: bold;
-    background-color: #d950ae;
-    color: #eeedee;
+    background-color: #3b373b;
+    color: #dddbde;
     padding: 10px 25px;
     border: none;
     border-radius: 5px;
@@ -71,16 +71,16 @@ button {
 }
 
 button:hover {
-    background-color: #dd62b6;
+    background-color: #4f4b4f;
 }
 
 button:active {
-    background-color: #c3489d;
+    background-color: #2f2c2f;
 }
 
 .location {
     font-weight: bold;
-    background-color: rgba(215, 214, 215, .3);
+    background-color: #cad4df;
     padding: 15px;
     border-radius: 10px;
     display: flex;
@@ -94,14 +94,14 @@ button:active {
     font-size: inherit;
     color: inherit;
     padding: 5px 0;
-    border: 2px solid #efc6d4;
+    border: 2px solid #b1afb1;
     border-radius: 5px;
     outline: none;
     transition: border-color .3s ease;
 }
 
 .forecast {
-    background-color: rgba(215, 214, 215, .3);
+    background-color: #cad4df;
     padding: 15px;
     border-radius: 10px;
 }
@@ -113,6 +113,8 @@ button:active {
 }
 
 .current > header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #b1afb1;
     display: flex;
     justify-content: space-between;
 }
