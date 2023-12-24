@@ -241,43 +241,73 @@ const createCurrentForecastPanel = () => {
     main.append(section);
 };
 
-const KEY = 'ad9dc8bf748642ca80d133456230212';
-
 const getForecast = async (location) => {
+    const KEY = 'ad9dc8bf748642ca80d133456230212';
+
     let response = await fetch(
         `https://api.weatherapi.com/v1/forecast.json?key=${KEY}&q=${location}&days=3`, 
         { mode: 'cors' }
     );
     response = await response.json();
 
+    const address = `${response.location.name}, ${response.location.region}, ${response.location.country}`;
+
+    const current = {
+        lastUpdated: response.current.last_updated,
+        icon: response.current.condition.icon,
+        temperatureC: response.current.temp_c,
+        temperatureF: response.current.temp_f,
+        feelsLikeC: response.current.feelslike_c,
+        feelsLikeF: response.current.feelslike_f,
+        condition: response.current.condition.text,
+        windDir: response.current.wind_dir,
+        windKph: response.current.wind_kph,
+        windMph: response.current.wind_mph,
+        windGustKph: response.current.gust_kph,
+        windGustMph: response.current.gust_mph,
+        humidity: response.current.humidity,
+        precipitationMm: response.current.precip_mm,
+        precipitationIn: response.current.precip_in,
+        uvIndex: response.current.uv,
+        pressureMb: response.current.pressure_mb,
+        pressureIn: response.current.pressure_in,
+        cloudCover: response.current.cloud,
+        visibilityKm: response.current.vis_km,
+        visibilityMi: response.current.vis_miles
+    };
+
+    const days = response.forecast.forecastday;
+    const daily = [];
+
+    days.forEach(day => {
+        daily.push({
+            date: day.date,
+            icon: day.day.condition.icon,
+            maxTemperatureC: day.day.maxtemp_c,
+            maxTemperatureF: day.day.maxtemp_f,
+            avgTemperatureC: day.day.avgtemp_c,
+            avgTemperatureF: day.day.avgtemp_f,
+            minTemperatureC: day.day.mintemp_c,
+            minTemperatureF: day.day.mintemp_f,
+            condition: day.day.condition.text,
+            windKph: day.day.maxwind_kph,
+            windMph: day.day.maxwind_mph,
+            avgHumidity: day.day.avghumidity,
+            totalPrecipitationMm: day.day.totalprecip_mm,
+            totalPrecipitationIn: day.day.totalprecip_in,
+            sunrise: day.astro.sunrise,
+            moonrise: day.astro.moonrise,
+            uvIndex: day.day.uv,
+            chanceOfRain: day.day.daily_chance_of_rain,
+            chanceOfSnow: day.day.daily_chance_of_snow,
+            sunset: day.astro.sunset,
+            moonset: day.astro.moonset
+        });
+    });
+
     return {
-        location: {
-            name: response.location.name,
-            region: response.location.region,
-            country: response.location.country
-        },
-        current: {
-            lastUpdated: response.current.last_updated,
-            icon: response.current.condition.icon,
-            temperatureC: response.current.temp_c,
-            temperatureF: response.current.temp_f,
-            feelsLikeC: response.current.feelslike_c,
-            feelsLikeF: response.current.feelslike_f,
-            condition: response.current.condition.text,
-            windDir: response.current.wind_dir,
-            windKph: response.current.wind_kph,
-            windMph: response.current.wind_mph,
-            windGustKph: response.current.gust_kph,
-            windGustMph: response.current.gust_mph,
-            humidity: response.current.humidity,
-            precipitationIn: response.current.precip_in,
-            precipitationMm: response.current.precip_mm,
-            uvIndex: response.current.uv,
-            pressureMb: response.current.pressure_mb,
-            pressureIn: response.current.pressure_in,
-            cloudCover: response.current.cloud,
-            visibilityKm: response.current.vis_km,
-            visibilityMi: response.current.vis_miles
-        },
+        address,
+        current,
+        daily
     };
 };
