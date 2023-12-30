@@ -1,14 +1,14 @@
 const createForecastPanel = () => {
     const section = document.createElement('section');
 
-    const divLocation = document.createElement('div');
-    divLocation.classList.add('location');
+    const divAddress = document.createElement('div');
+    divAddress.classList.add('address');
 
-    const locationSpan = document.createElement('span');
+    const addressSpan = document.createElement('span');
 
-    const selectUnit = document.createElement('select');
-    selectUnit.name = 'unit';
-    selectUnit.id = 'unit';
+    const selectSystem = document.createElement('select');
+    selectSystem.name = 'system';
+    selectSystem.id = 'system';
 
     const optionMetric = document.createElement('option');
     optionMetric.value = 'metric';
@@ -171,7 +171,8 @@ const createForecastPanel = () => {
     spanDailyTitle.classList.add('daily-title');
     spanDailyTitle.textContent = 'Daily Weather';
 
-    const dailyDiv = document.createElement('div');
+    const divDays = document.createElement('div');
+    divDays.classList.add('days');
 
     const divDayOne = document.createElement('div');
     divDayOne.classList.add('day-one');
@@ -454,14 +455,14 @@ const createForecastPanel = () => {
     divDayOne.append(divDate1);
     divDayOne.append(dayOneDiv);
 
-    dailyDiv.append(divDayOne);
-    dailyDiv.append(divDayTwo);
-    dailyDiv.append(divDayThree);
+    divDays.append(divDayOne);
+    divDays.append(divDayTwo);
+    divDays.append(divDayThree);
 
     dailyHeader.append(spanDailyTitle);
 
     divDaily.append(dailyHeader);
-    divDaily.append(dailyDiv);
+    divDaily.append(divDays);
     divDaily.append(divMore2);
 
     divVisibility.append(visibilitySpanTitle);
@@ -531,18 +532,90 @@ const createForecastPanel = () => {
     divForecast.append(divCurrent);
     divForecast.append(divDaily);
 
-    selectUnit.append(optionMetric);
-    selectUnit.append(optionImperial);
+    selectSystem.append(optionMetric);
+    selectSystem.append(optionImperial);
 
-    divLocation.append(locationSpan);
-    divLocation.append(selectUnit);
+    divAddress.append(addressSpan);
+    divAddress.append(selectSystem);
 
-    section.append(divLocation);
+    section.append(divAddress);
     section.append(divForecast);
 
     const main = document.querySelector('main');
 
     main.append(section);
+};
+
+const displayForecast = (forecast, system = 'metric') => {
+    createForecastPanel();
+
+    const address = document.querySelector('.address > span');
+    const lastUpdated = document.querySelector('.last-updated');
+    const currentIcon = document.querySelector('.current-details .icon > img');
+    const currentTemperature = document.querySelector('.current-temperature');
+    const unit = document.querySelector('.unit');
+    const currentFeelsLike = document.querySelector('.feels .value');
+    const currentCondition = document.querySelector('.temperature .condition');
+    const currentWind = document.querySelector('.wind > .value');
+    const currentWindGusts = document.querySelector('.wind-gusts > .value');
+    const currentHumidity = document.querySelector('.humidity > .value');
+    const currentPrecipitation = document.querySelector('.precipitation > .value');
+    const currentUvIndex = document.querySelector('.current-details .uv-index .level');
+    const currentPressure = document.querySelector('.pressure > .value');
+    const currentCloudCover = document.querySelector('.cloud-cover > .value');
+    const currentVisibility = document.querySelector('.visibility > .value');
+    const dailyDates = document.querySelectorAll('.days .date');
+    const dailyIcons = document.querySelectorAll('.days .icon > img');
+    const dailyMaxTemperatures = document.querySelectorAll('.days .day-temperature > .max');
+    const dailyAvgTemperatures = document.querySelectorAll('.days .day-temperature > .avg');
+    const dailyMinTemperatures = document.querySelectorAll('.days .day-temperature > .min');
+
+    address.textContent = forecast.address;
+    lastUpdated.textContent = forecast.current.lastUpdated;
+    currentIcon.src = `https:${forecast.current.icon}`;
+    currentCondition.textContent = forecast.current.condition;
+    currentHumidity.textContent = `${forecast.current.humidity}%`;
+    currentUvIndex.textContent = forecast.current.uvIndex;
+    currentCloudCover.textContent = `${forecast.current.cloudCover}%`;
+
+    const daily = forecast.daily;
+
+    daily.forEach((day, index) => {
+        dailyDates[index].textContent = day.date.slice(day.date.indexOf('-') + 1);
+        dailyIcons[index].src = `https:${day.icon}`;
+    });
+
+    if (system === 'metric') {
+        currentTemperature.textContent = Math.round(forecast.current.temperatureC);
+        unit.textContent = '℃';
+        currentFeelsLike.textContent = `${Math.round(forecast.current.feelsLikeC)}℃`;
+        currentWind.textContent = `${forecast.current.windDir} ${Math.round(forecast.current.windKph)} km/h`;
+        currentWindGusts.textContent = `${Math.round(forecast.current.windGustKph)} km/h`;
+        currentPrecipitation.textContent = `${forecast.current.precipitationMm} mm`;
+        currentPressure.textContent = `${forecast.current.pressureMb} mb`;
+        currentVisibility.textContent = `${forecast.current.visibilityKm} km`;
+
+        daily.forEach((day, index) => {
+            dailyMaxTemperatures[index].textContent = `${Math.round(day.maxTemperatureC)}°`;
+            dailyAvgTemperatures[index].textContent = `${Math.round(day.avgTemperatureC)}°`;
+            dailyMinTemperatures[index].textContent = `${Math.round(day.minTemperatureC)}°`;
+        });
+    } else {
+        currentTemperature.textContent = Math.round(forecast.current.temperatureF);
+        unit.textContent = '℉';
+        feelsLike.textContent = `${Math.round(forecast.current.feelsLikeF)}℉`;
+        wind.textContent = `${forecast.current.windDir} ${Math.round(forecast.current.windMph)} mi/h`;
+        windGusts.textContent = `${Math.round(forecast.current.windGustMph)} mi/h`;
+        precipitation.textContent = `${forecast.current.precipitationIn} in`;
+        pressure.textContent = `${forecast.current.pressureIn} in`;
+        visibility.textContent = `${forecast.current.visibilityMi} mi`;
+
+        daily.forEach((day, index) => {
+            dailyMaxTemperatures[index].textContent = `${Math.round(day.maxTemperatureF)}°`;
+            dailyAvgTemperatures[index].textContent = `${Math.round(day.avgTemperatureF)}°`;
+            dailyMinTemperatures[index].textContent = `${Math.round(day.minTemperatureF)}°`;
+        });
+    }
 };
 
 const getForecast = async (location) => {
@@ -554,7 +627,12 @@ const getForecast = async (location) => {
     );
     response = await response.json();
 
-    const address = `${response.location.name}, ${response.location.region}, ${response.location.country}`;
+    let address = '';
+    if (response.location.region) {
+        address = `${response.location.name}, ${response.location.region}, ${response.location.country}`;
+    } else {
+        address = `${response.location.name}, ${response.location.country}`;
+    }
 
     const current = {
         lastUpdated: response.current.last_updated,
