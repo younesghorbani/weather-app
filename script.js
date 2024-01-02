@@ -260,15 +260,15 @@ const createForecastPanel = () => {
     const divFirstColumn2 = document.createElement('div');
     divFirstColumn2.classList.add('first-column');
 
-    const divMaxWind = document.createElement('div');
-    divMaxWind.classList.add('max-wind');
+    const divMaxWindSpeed = document.createElement('div');
+    divMaxWindSpeed.classList.add('max-wind-speed');
 
-    const maxWindSpanTitle = document.createElement('span');
-    maxWindSpanTitle.classList.add('title');
-    maxWindSpanTitle.textContent = 'Max. Wind Speed';
+    const maxWindSpeedSpanTitle = document.createElement('span');
+    maxWindSpeedSpanTitle.classList.add('title');
+    maxWindSpeedSpanTitle.textContent = 'Max. Wind Speed';
 
-    const maxWindSpanValue = document.createElement('span');
-    maxWindSpanValue.classList.add('value');
+    const maxWindSpeedSpanValue = document.createElement('span');
+    maxWindSpeedSpanValue.classList.add('value');
 
     const divAverageHumidity = document.createElement('div');
     divAverageHumidity.classList.add('average-humidity');
@@ -404,10 +404,10 @@ const createForecastPanel = () => {
     divAverageHumidity.append(averageHumiditySpanTitle);
     divAverageHumidity.append(averageHumiditySpanValue);
 
-    divMaxWind.append(maxWindSpanTitle);
-    divMaxWind.append(maxWindSpanValue);
+    divMaxWindSpeed.append(maxWindSpeedSpanTitle);
+    divMaxWindSpeed.append(maxWindSpeedSpanValue);
 
-    divFirstColumn2.append(divMaxWind);
+    divFirstColumn2.append(divMaxWindSpeed);
     divFirstColumn2.append(divAverageHumidity);
     divFirstColumn2.append(divTotalPrecipitation);
     divFirstColumn2.append(divSunrise);
@@ -546,6 +546,50 @@ const createForecastPanel = () => {
     main.append(section);
 };
 
+const displayDayDetails = (days, system = 'metric') => {
+    const condition = document.querySelector('.daily .condition');
+    const maxWindSpeed = document.querySelector('.max-wind-speed > .value');
+    const averageHumidity = document.querySelector('.average-humidity > .value');
+    const totalPrecipitation = document.querySelector('.total-precipitation > .value');
+    const sunrise = document.querySelector('.sunrise > .value');
+    const moonrise = document.querySelector('.moonrise > .value');
+    const uvIndex = document.querySelector('.daily .uv-index .level');
+    const chanceOfRain = document.querySelector('.rain > .value');
+    const chanceOfSnow = document.querySelector('.snow > .value');
+    const sunset = document.querySelector('.sunset > .value');
+    const moonset = document.querySelector('.moonset > .value');
+
+    const tabs = document.querySelectorAll('.days > div');
+
+    tabs.forEach((tab, index) => tab.addEventListener('click', (event) => {
+        for (let index = 0; index < tabs.length; index++) {
+            if (tabs[index].className.includes('selected')) {
+                tabs[index].classList.remove('selected');
+            }
+        }
+
+        event.currentTarget.classList.add('selected');
+
+        condition.textContent = days[index].condition;
+        averageHumidity.textContent = `${days[index].avgHumidity}%`;
+        sunrise.textContent = days[index].sunrise;
+        moonrise.textContent = days[index].moonrise;
+        uvIndex.textContent = days[index].uvIndex;
+        chanceOfRain.textContent = `${days[index].chanceOfRain}%`;
+        chanceOfSnow.textContent = `${days[index].chanceOfSnow}%`;
+        sunset.textContent = days[index].sunset;
+        moonset.textContent = days[index].moonset;
+        
+        if (system === 'metric') {
+            maxWindSpeed.textContent = `${Math.round(days[index].maxWindSpeedKph)} km/h`;
+            totalPrecipitation.textContent = `${days[index].totalPrecipitationMm} mm`;
+        } else {
+            maxWindSpeed.textContent = `${Math.round(days[index].maxWindSpeedMph)} mi/h`;
+            totalPrecipitation.textContent = `${days[index].totalPrecipitationIn} in`;
+        }
+    }));
+};
+
 const displayForecast = (forecast, system = 'metric') => {
     createForecastPanel();
 
@@ -603,12 +647,12 @@ const displayForecast = (forecast, system = 'metric') => {
     } else {
         currentTemperature.textContent = Math.round(forecast.current.temperatureF);
         unit.textContent = '℉';
-        feelsLike.textContent = `${Math.round(forecast.current.feelsLikeF)}℉`;
-        wind.textContent = `${forecast.current.windDir} ${Math.round(forecast.current.windMph)} mi/h`;
-        windGusts.textContent = `${Math.round(forecast.current.windGustMph)} mi/h`;
-        precipitation.textContent = `${forecast.current.precipitationIn} in`;
-        pressure.textContent = `${forecast.current.pressureIn} in`;
-        visibility.textContent = `${forecast.current.visibilityMi} mi`;
+        currentFeelsLike.textContent = `${Math.round(forecast.current.feelsLikeF)}℉`;
+        currentWind.textContent = `${forecast.current.windDir} ${Math.round(forecast.current.windMph)} mi/h`;
+        currentWindGusts.textContent = `${Math.round(forecast.current.windGustMph)} mi/h`;
+        currentPrecipitation.textContent = `${forecast.current.precipitationIn} in`;
+        currentPressure.textContent = `${Math.round(forecast.current.pressureIn)} in`;
+        currentVisibility.textContent = `${forecast.current.visibilityMi} mi`;
 
         daily.forEach((day, index) => {
             dailyMaxTemperatures[index].textContent = `${Math.round(day.maxTemperatureF)}°`;
@@ -616,6 +660,8 @@ const displayForecast = (forecast, system = 'metric') => {
             dailyMinTemperatures[index].textContent = `${Math.round(day.minTemperatureF)}°`;
         });
     }
+    
+    return daily;
 };
 
 const getForecast = async (location) => {
@@ -672,8 +718,8 @@ const getForecast = async (location) => {
             minTemperatureC: day.day.mintemp_c,
             minTemperatureF: day.day.mintemp_f,
             condition: day.day.condition.text,
-            windKph: day.day.maxwind_kph,
-            windMph: day.day.maxwind_mph,
+            maxWindSpeedKph: day.day.maxwind_kph,
+            maxWindSpeedMph: day.day.maxwind_mph,
             avgHumidity: day.day.avghumidity,
             totalPrecipitationMm: day.day.totalprecip_mm,
             totalPrecipitationIn: day.day.totalprecip_in,
