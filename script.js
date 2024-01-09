@@ -1,4 +1,4 @@
-const createForecastPanel = () => {
+const createForecastPanel = (numberOfDays) => {
     const section = document.createElement('section');
 
     const divAddress = document.createElement('div');
@@ -38,10 +38,10 @@ const createForecastPanel = () => {
 
     const currentDetailsDiv = document.createElement('div');
 
-    const divIcon1 = document.createElement('div');
-    divIcon1.classList.add('icon');
+    const divIcon = document.createElement('div');
+    divIcon.classList.add('icon');
 
-    const img1 = document.createElement('img');
+    const img = document.createElement('img');
 
     const divTemperature = document.createElement('div');
     divTemperature.classList.add('temperature');
@@ -122,14 +122,8 @@ const createForecastPanel = () => {
     uvIndexSpanTitle1.classList.add('title');
     uvIndexSpanTitle1.textContent = 'UV Index';
 
-    const uvIndexDiv1 = document.createElement('div');
-
     const spanLevel1 = document.createElement('span');
     spanLevel1.classList.add('level');
-
-    const spanCategory1 = document.createElement('span');
-    spanCategory1.classList.add('category');
-    spanCategory1.textContent = '';
 
     const divPressure = document.createElement('div');
     divPressure.classList.add('pressure');
@@ -174,80 +168,47 @@ const createForecastPanel = () => {
     const divDays = document.createElement('div');
     divDays.classList.add('days');
 
-    const divDayOne = document.createElement('div');
-    divDayOne.classList.add('day-one');
+    for (let index = 0; index < numberOfDays; index++) {
+        const divDay = document.createElement('div');
+        divDay.classList.add(`day-${index}`);
+        divDay.id = index;
 
-    const divDate1 = document.createElement('div');
-    divDate1.classList.add('date');
+        const divDate = document.createElement('div');
+        divDate.classList.add('date');
 
-    const dayOneDiv = document.createElement('div');
+        const dayDiv = document.createElement('div');
 
-    const divIcon2 = document.createElement('div');
-    divIcon2.classList.add('icon');
+        const divIcon = document.createElement('div');
+        divIcon.classList.add('icon');
 
-    const img2 = document.createElement('img');
+        const img = document.createElement('img');
 
-    const divDayTemperature1 = document.createElement('div');
-    divDayTemperature1.classList.add('day-temperature');
+        const divDayTemperature = document.createElement('div');
+        divDayTemperature.classList.add('day-temperature');
 
-    const spanMax1 = document.createElement('span');
-    spanMax1.classList.add('max');
+        const spanMax = document.createElement('span');
+        spanMax.classList.add('max');
 
-    const spanAvg1 = document.createElement('span');
-    spanAvg1.classList.add('avg');
+        const spanAvg = document.createElement('span');
+        spanAvg.classList.add('avg');
+    
+        const spanMin = document.createElement('span');
+        spanMin.classList.add('min');
 
-    const spanMin1 = document.createElement('span');
-    spanMin1.classList.add('min');
+        divDayTemperature.append(spanMax);
+        divDayTemperature.append(spanAvg);
+        divDayTemperature.append(spanMin);
 
-    const divDayTwo = document.createElement('div');
-    divDayTwo.classList.add('day-two');
+        divIcon.append(img);
 
-    const divDate2 = document.createElement('div');
-    divDate2.classList.add('date');
+        dayDiv.append(divIcon);
+        dayDiv.append(divDayTemperature);
 
-    const dayTwoDiv = document.createElement('div');
+        divDay.append(divDate);
+        divDay.append(dayDiv);
 
-    const divIcon3 = document.createElement('div');
-    divIcon3.classList.add('icon');
-
-    const img3 = document.createElement('img');
-
-    const divDayTemperature2 = document.createElement('div');
-    divDayTemperature2.classList.add('day-temperature');
-
-    const spanMax2 = document.createElement('span');
-    spanMax2.classList.add('max');
-
-    const spanAvg2 = document.createElement('span');
-    spanAvg2.classList.add('avg');
-
-    const spanMin2 = document.createElement('span');
-    spanMin2.classList.add('min');
-
-    const divDayThree = document.createElement('div');
-    divDayThree.classList.add('day-three');
-
-    const divDate3 = document.createElement('div');
-    divDate3.classList.add('date');
-
-    const dayThreeDiv = document.createElement('div');
-
-    const divIcon4 = document.createElement('div');
-    divIcon4.classList.add('icon');
-
-    const img4 = document.createElement('img');
-
-    const divDayTemperature3 = document.createElement('div');
-    divDayTemperature3.classList.add('day-temperature');
-
-    const spanMax3 = document.createElement('span');
-    spanMax3.classList.add('max');
-
-    const spanAvg3 = document.createElement('span');
-    spanAvg3.classList.add('avg');
-
-    const spanMin3 = document.createElement('span');
-    spanMin3.classList.add('min');
+        divDays.append(divDay);
+    }
 
     const divMore2 = document.createElement('div');
     divMore2.classList.add('more');
@@ -320,13 +281,8 @@ const createForecastPanel = () => {
     uvIndexSpanTitle2.classList.add('title');
     uvIndexSpanTitle2.textContent = 'UV Index';
 
-    const uvIndexDiv2 = document.createElement('div');
-
     const spanLevel2 = document.createElement('span');
     spanLevel2.classList.add('level');
-    
-    const spanCategory2 = document.createElement('span');
-    spanCategory2.classList.add('category');
 
     const divRain = document.createElement('div');
     divRain.classList.add('rain');
@@ -380,11 +336,8 @@ const createForecastPanel = () => {
     divRain.append(rainSpanTitle);
     divRain.append(rainSpanValue);
 
-    uvIndexDiv2.append(spanLevel2);
-    uvIndexDiv2.append(spanCategory2);
-
     divUvIndex2.append(uvIndexSpanTitle2);
-    divUvIndex2.append(uvIndexDiv2);
+    divUvIndex2.append(spanLevel2);
 
     divSecondColumn2.append(divUvIndex2);
     divSecondColumn2.append(divRain);
@@ -418,47 +371,7 @@ const createForecastPanel = () => {
 
     divMore2.append(spanCondition2);
     divMore2.append(moreDiv);
-
-    divDayTemperature3.append(spanMax3);
-    divDayTemperature3.append(spanAvg3);
-    divDayTemperature3.append(spanMin3);
-
-    divIcon4.append(img4);
-
-    dayThreeDiv.append(divIcon4);
-    dayThreeDiv.append(divDayTemperature3);
-
-    divDayThree.append(divDate3);
-    divDayThree.append(dayThreeDiv);
-
-    divDayTemperature2.append(spanMax2);
-    divDayTemperature2.append(spanAvg2);
-    divDayTemperature2.append(spanMin2);
-
-    divIcon3.append(img3);
-
-    dayTwoDiv.append(divIcon3);
-    dayTwoDiv.append(divDayTemperature2);
-
-    divDayTwo.append(divDate2);
-    divDayTwo.append(dayTwoDiv);
-
-    divDayTemperature1.append(spanMax1);
-    divDayTemperature1.append(spanAvg1);
-    divDayTemperature1.append(spanMin1);
-
-    divIcon2.append(img2);
-
-    dayOneDiv.append(divIcon2);
-    dayOneDiv.append(divDayTemperature1);
-
-    divDayOne.append(divDate1);
-    divDayOne.append(dayOneDiv);
-
-    divDays.append(divDayOne);
-    divDays.append(divDayTwo);
-    divDays.append(divDayThree);
-
+    
     dailyHeader.append(spanDailyTitle);
 
     divDaily.append(dailyHeader);
@@ -474,11 +387,8 @@ const createForecastPanel = () => {
     divPressure.append(pressureSpanTitle);
     divPressure.append(pressureSpanValue);
 
-    uvIndexDiv1.append(spanLevel1);
-    uvIndexDiv1.append(spanCategory1);
-
     divUvIndex1.append(uvIndexSpanTitle1);
-    divUvIndex1.append(uvIndexDiv1);
+    divUvIndex1.append(spanLevel1);
 
     divSecondColumn1.append(divUvIndex1);
     divSecondColumn1.append(divPressure);
@@ -515,9 +425,9 @@ const createForecastPanel = () => {
     divTemperature.append(spanUnit);
     divTemperature.append(temperatureDiv);
 
-    divIcon1.append(img1);
+    divIcon.append(img);
 
-    currentDetailsDiv.append(divIcon1);
+    currentDetailsDiv.append(divIcon);
     currentDetailsDiv.append(divTemperature);
 
     divCurrentDetails.append(currentDetailsDiv);
@@ -546,7 +456,15 @@ const createForecastPanel = () => {
     main.append(section);
 };
 
-const displayDayDetails = (days, system = 'metric') => {
+const setUvIndexCategory = (index) => {
+    if (index >= 0 && index <= 2) return 'Low';
+    if (index >= 3 && index <= 5) return 'Moderate';
+    if (index >= 6 && index <= 7) return 'High';
+    if (index >= 8 && index <= 10) return 'Very High';
+    if (index >= 11) return 'Extreme';
+};
+
+const displayDayDetails = (forecast, index) => {
     const condition = document.querySelector('.daily .condition');
     const maxWindSpeed = document.querySelector('.max-wind-speed > .value');
     const averageHumidity = document.querySelector('.average-humidity > .value');
@@ -559,40 +477,42 @@ const displayDayDetails = (days, system = 'metric') => {
     const sunset = document.querySelector('.sunset > .value');
     const moonset = document.querySelector('.moonset > .value');
 
-    const tabs = document.querySelectorAll('.days > div');
+    const days = document.querySelectorAll('.days > div');
 
-    tabs.forEach((tab, index) => tab.addEventListener('click', (event) => {
-        for (let index = 0; index < tabs.length; index++) {
-            if (tabs[index].className.includes('selected')) {
-                tabs[index].classList.remove('selected');
-            }
+    for (let day of days) {
+        if (day.className.includes('selected')) {
+            day.classList.remove('selected');
         }
+    }
 
-        event.currentTarget.classList.add('selected');
+    days[index].classList.add('selected');
 
-        condition.textContent = days[index].condition;
-        averageHumidity.textContent = `${days[index].avgHumidity}%`;
-        sunrise.textContent = days[index].sunrise;
-        moonrise.textContent = days[index].moonrise;
-        uvIndex.textContent = days[index].uvIndex;
-        chanceOfRain.textContent = `${days[index].chanceOfRain}%`;
-        chanceOfSnow.textContent = `${days[index].chanceOfSnow}%`;
-        sunset.textContent = days[index].sunset;
-        moonset.textContent = days[index].moonset;
-        
-        if (system === 'metric') {
-            maxWindSpeed.textContent = `${Math.round(days[index].maxWindSpeedKph)} km/h`;
-            totalPrecipitation.textContent = `${days[index].totalPrecipitationMm} mm`;
-        } else {
-            maxWindSpeed.textContent = `${Math.round(days[index].maxWindSpeedMph)} mi/h`;
-            totalPrecipitation.textContent = `${days[index].totalPrecipitationIn} in`;
-        }
-    }));
+    const dailyForecast = forecast.daily;
+
+    condition.textContent = dailyForecast[index].condition;
+    averageHumidity.textContent = `${dailyForecast[index].avgHumidity}%`;
+    sunrise.textContent = dailyForecast[index].sunrise;
+    moonrise.textContent = dailyForecast[index].moonrise;
+    uvIndex.textContent = `${dailyForecast[index].uvIndex} ${setUvIndexCategory(dailyForecast[index].uvIndex)}`;
+    chanceOfRain.textContent = `${dailyForecast[index].chanceOfRain}%`;
+    chanceOfSnow.textContent = `${dailyForecast[index].chanceOfSnow}%`;
+    sunset.textContent = dailyForecast[index].sunset;
+    moonset.textContent = dailyForecast[index].moonset;
+
+    const system = document.querySelector('#system');
+
+    const selectedSystem = system[system.selectedIndex].value;
+
+    if (selectedSystem === 'metric') {
+        maxWindSpeed.textContent = `${Math.round(dailyForecast[index].maxWindSpeedKph)} km/h`;
+        totalPrecipitation.textContent = `${dailyForecast[index].totalPrecipitationMm} mm`;
+    } else {
+        maxWindSpeed.textContent = `${Math.round(dailyForecast[index].maxWindSpeedMph)} mi/h`;
+        totalPrecipitation.textContent = `${dailyForecast[index].totalPrecipitationIn} in`;
+    }
 };
 
-const displayForecast = (forecast, system = 'metric') => {
-    createForecastPanel();
-
+const displayForecast = (forecast) => {
     const address = document.querySelector('.address > span');
     const lastUpdated = document.querySelector('.last-updated');
     const currentIcon = document.querySelector('.current-details .icon > img');
@@ -619,17 +539,21 @@ const displayForecast = (forecast, system = 'metric') => {
     currentIcon.src = `https:${forecast.current.icon}`;
     currentCondition.textContent = forecast.current.condition;
     currentHumidity.textContent = `${forecast.current.humidity}%`;
-    currentUvIndex.textContent = forecast.current.uvIndex;
+    currentUvIndex.textContent = `${forecast.current.uvIndex} ${setUvIndexCategory(forecast.current.uvIndex)}`;
     currentCloudCover.textContent = `${forecast.current.cloudCover}%`;
 
-    const daily = forecast.daily;
+    const dailyForecast = forecast.daily;
 
-    daily.forEach((day, index) => {
+    dailyForecast.forEach((day, index) => {
         dailyDates[index].textContent = day.date.slice(day.date.indexOf('-') + 1);
         dailyIcons[index].src = `https:${day.icon}`;
     });
 
-    if (system === 'metric') {
+    const system = document.querySelector('#system');
+
+    const selectedSystem = system[system.selectedIndex].value;
+
+    if (selectedSystem === 'metric') {
         currentTemperature.textContent = Math.round(forecast.current.temperatureC);
         unit.textContent = '℃';
         currentFeelsLike.textContent = `${Math.round(forecast.current.feelsLikeC)}℃`;
@@ -639,7 +563,7 @@ const displayForecast = (forecast, system = 'metric') => {
         currentPressure.textContent = `${forecast.current.pressureMb} mb`;
         currentVisibility.textContent = `${forecast.current.visibilityKm} km`;
 
-        daily.forEach((day, index) => {
+        dailyForecast.forEach((day, index) => {
             dailyMaxTemperatures[index].textContent = `${Math.round(day.maxTemperatureC)}°`;
             dailyAvgTemperatures[index].textContent = `${Math.round(day.avgTemperatureC)}°`;
             dailyMinTemperatures[index].textContent = `${Math.round(day.minTemperatureC)}°`;
@@ -654,14 +578,12 @@ const displayForecast = (forecast, system = 'metric') => {
         currentPressure.textContent = `${Math.round(forecast.current.pressureIn)} in`;
         currentVisibility.textContent = `${forecast.current.visibilityMi} mi`;
 
-        daily.forEach((day, index) => {
+        dailyForecast.forEach((day, index) => {
             dailyMaxTemperatures[index].textContent = `${Math.round(day.maxTemperatureF)}°`;
             dailyAvgTemperatures[index].textContent = `${Math.round(day.avgTemperatureF)}°`;
             dailyMinTemperatures[index].textContent = `${Math.round(day.minTemperatureF)}°`;
         });
     }
-    
-    return daily;
 };
 
 const getForecast = async (location) => {
@@ -732,6 +654,8 @@ const getForecast = async (location) => {
             moonset: day.astro.moonset
         });
     });
+
+    createForecastPanel(days.length);
 
     return {
         address,
