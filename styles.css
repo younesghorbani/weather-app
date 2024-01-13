@@ -276,3 +276,10 @@ button:active {
     padding-bottom: 15px;
     text-align: center;
 }
+
+.message {
+    padding: 15px;
+    background-color: #cad4df;
+    color: #b91c1c;
+    border-radius: 10px;
+}
