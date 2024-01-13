@@ -456,6 +456,14 @@ const createForecastPanel = (numberOfDays) => {
     main.append(section);
 };
 
+const displayErrorMessage = (errorMessage) => {
+    const message = document.createElement('div');
+    message.classList.add('message');
+    message.textContent = errorMessage;
+
+    document.querySelector('main').append(message);
+};
+
 const setUvIndexCategory = (index) => {
     if (index >= 0 && index <= 2) return 'Low';
     if (index >= 3 && index <= 5) return 'Moderate';
@@ -593,73 +601,122 @@ const getForecast = async (location) => {
         `https://api.weatherapi.com/v1/forecast.json?key=${KEY}&q=${location}&days=3`, 
         { mode: 'cors' }
     );
-    response = await response.json();
 
-    let address = '';
-    if (response.location.region) {
-        address = `${response.location.name}, ${response.location.region}, ${response.location.country}`;
-    } else {
-        address = `${response.location.name}, ${response.location.country}`;
-    }
+    if (response.ok) {
+        response = await response.json();
 
-    const current = {
-        lastUpdated: response.current.last_updated,
-        icon: response.current.condition.icon,
-        temperatureC: response.current.temp_c,
-        temperatureF: response.current.temp_f,
-        feelsLikeC: response.current.feelslike_c,
-        feelsLikeF: response.current.feelslike_f,
-        condition: response.current.condition.text,
-        windDir: response.current.wind_dir,
-        windKph: response.current.wind_kph,
-        windMph: response.current.wind_mph,
-        windGustKph: response.current.gust_kph,
-        windGustMph: response.current.gust_mph,
-        humidity: response.current.humidity,
-        precipitationMm: response.current.precip_mm,
-        precipitationIn: response.current.precip_in,
-        uvIndex: response.current.uv,
-        pressureMb: response.current.pressure_mb,
-        pressureIn: response.current.pressure_in,
-        cloudCover: response.current.cloud,
-        visibilityKm: response.current.vis_km,
-        visibilityMi: response.current.vis_miles
-    };
+        let address = '';
 
-    const days = response.forecast.forecastday;
-    const daily = [];
-
-    days.forEach(day => {
-        daily.push({
-            date: day.date,
-            icon: day.day.condition.icon,
-            maxTemperatureC: day.day.maxtemp_c,
-            maxTemperatureF: day.day.maxtemp_f,
-            avgTemperatureC: day.day.avgtemp_c,
-            avgTemperatureF: day.day.avgtemp_f,
-            minTemperatureC: day.day.mintemp_c,
-            minTemperatureF: day.day.mintemp_f,
-            condition: day.day.condition.text,
-            maxWindSpeedKph: day.day.maxwind_kph,
-            maxWindSpeedMph: day.day.maxwind_mph,
-            avgHumidity: day.day.avghumidity,
-            totalPrecipitationMm: day.day.totalprecip_mm,
-            totalPrecipitationIn: day.day.totalprecip_in,
-            sunrise: day.astro.sunrise,
-            moonrise: day.astro.moonrise,
-            uvIndex: day.day.uv,
-            chanceOfRain: day.day.daily_chance_of_rain,
-            chanceOfSnow: day.day.daily_chance_of_snow,
-            sunset: day.astro.sunset,
-            moonset: day.astro.moonset
+        if (response.location.region) {
+            address = `${response.location.name}, ${response.location.region}, ${response.location.country}`;
+        } else {
+            address = `${response.location.name}, ${response.location.country}`;
+        }
+    
+        const current = {
+            lastUpdated: response.current.last_updated,
+            icon: response.current.condition.icon,
+            temperatureC: response.current.temp_c,
+            temperatureF: response.current.temp_f,
+            feelsLikeC: response.current.feelslike_c,
+            feelsLikeF: response.current.feelslike_f,
+            condition: response.current.condition.text,
+            windDir: response.current.wind_dir,
+            windKph: response.current.wind_kph,
+            windMph: response.current.wind_mph,
+            windGustKph: response.current.gust_kph,
+            windGustMph: response.current.gust_mph,
+            humidity: response.current.humidity,
+            precipitationMm: response.current.precip_mm,
+            precipitationIn: response.current.precip_in,
+            uvIndex: response.current.uv,
+            pressureMb: response.current.pressure_mb,
+            pressureIn: response.current.pressure_in,
+            cloudCover: response.current.cloud,
+            visibilityKm: response.current.vis_km,
+            visibilityMi: response.current.vis_miles
+        };
+    
+        const days = response.forecast.forecastday;
+        const daily = [];
+    
+        days.forEach(day => {
+            daily.push({
+                date: day.date,
+                icon: day.day.condition.icon,
+                maxTemperatureC: day.day.maxtemp_c,
+                maxTemperatureF: day.day.maxtemp_f,
+                avgTemperatureC: day.day.avgtemp_c,
+                avgTemperatureF: day.day.avgtemp_f,
+                minTemperatureC: day.day.mintemp_c,
+                minTemperatureF: day.day.mintemp_f,
+                condition: day.day.condition.text,
+                maxWindSpeedKph: day.day.maxwind_kph,
+                maxWindSpeedMph: day.day.maxwind_mph,
+                avgHumidity: day.day.avghumidity,
+                totalPrecipitationMm: day.day.totalprecip_mm,
+                totalPrecipitationIn: day.day.totalprecip_in,
+                sunrise: day.astro.sunrise,
+                moonrise: day.astro.moonrise,
+                uvIndex: day.day.uv,
+                chanceOfRain: day.day.daily_chance_of_rain,
+                chanceOfSnow: day.day.daily_chance_of_snow,
+                sunset: day.astro.sunset,
+                moonset: day.astro.moonset
+            });
         });
-    });
 
-    createForecastPanel(days.length);
-
-    return {
-        address,
-        current,
-        daily
-    };
+        createForecastPanel(days.length);
+    
+        return {
+            address,
+            current,
+            daily
+        };
+    } else {
+        response = await response.json();
+        
+        if (response.error.code === 1006) throw new Error('No matching location found.');
+    }
 };
+
+document.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+
+    if (document.querySelector('section')) document.querySelector('section').remove();
+    if (document.querySelector('.message')) document.querySelector('.message').remove();
+
+    const location = document.getElementById('location');
+
+    if (location.validity.valueMissing) {
+        displayErrorMessage('Entering the location is required.');
+    } else {
+        getForecast(location.value).then(forecast => {
+            const main = document.querySelector('main');
+    
+            if (main.lastElementChild.className === 'message') {
+                main.lastElementChild.remove();
+            }
+    
+            displayForecast(forecast);
+        
+            const days = document.querySelectorAll('.days > div');
+            const system = document.querySelector('#system');
+        
+            days.forEach(day => day.addEventListener('click', event => {
+                const index = event.currentTarget.id;
+        
+                displayDayDetails(forecast, index);
+            }));
+        
+            document.querySelector('.days > .day-0').click();
+        
+            system.addEventListener('change', () => {
+                const index = document.querySelector('.days > div.selected').id;
+        
+                displayForecast(forecast);
+                displayDayDetails(forecast, index);
+            });
+        }).catch(error => displayErrorMessage(error.message));
+    }
+});
