@@ -451,17 +451,27 @@ const createForecastPanel = (numberOfDays) => {
     section.append(divAddress);
     section.append(divForecast);
 
-    const main = document.querySelector('main');
+    document.querySelector('main').append(section);
+};
 
-    main.append(section);
+const displayLoading = () => {
+    const divLoading = document.createElement('div');
+    divLoading.classList.add('loading');
+
+    const divLoader = document.createElement('div');
+    divLoader.classList.add('loader');
+
+    divLoading.append(divLoader);
+
+    document.querySelector('main').append(divLoading);
 };
 
 const displayErrorMessage = (errorMessage) => {
-    const message = document.createElement('div');
-    message.classList.add('message');
-    message.textContent = errorMessage;
+    const divMessage = document.createElement('div');
+    divMessage.classList.add('message');
+    divMessage.textContent = errorMessage;
 
-    document.querySelector('main').append(message);
+    document.querySelector('main').append(divMessage);
 };
 
 const setUvIndexCategory = (index) => {
@@ -595,6 +605,8 @@ const displayForecast = (forecast) => {
 };
 
 const getForecast = async (location) => {
+    displayLoading();
+
     const KEY = 'ad9dc8bf748642ca80d133456230212';
 
     let response = await fetch(
@@ -604,6 +616,8 @@ const getForecast = async (location) => {
 
     if (response.ok) {
         response = await response.json();
+
+        document.querySelector('.loading').remove();
 
         let address = '';
 
@@ -675,6 +689,8 @@ const getForecast = async (location) => {
         };
     } else {
         response = await response.json();
+
+        document.querySelector('.loading').remove();
         
         if (response.error.code === 1006) throw new Error('No matching location found.');
     }
@@ -691,13 +707,7 @@ document.querySelector('form').addEventListener('submit', event => {
     if (location.validity.valueMissing) {
         displayErrorMessage('Entering the location is required.');
     } else {
-        getForecast(location.value).then(forecast => {
-            const main = document.querySelector('main');
-    
-            if (main.lastElementChild.className === 'message') {
-                main.lastElementChild.remove();
-            }
-    
+        getForecast(location.value).then(forecast => {    
             displayForecast(forecast);
         
             const days = document.querySelectorAll('.days > div');
