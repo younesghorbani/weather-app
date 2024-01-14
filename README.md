@@ -23,6 +23,7 @@ This project is about building a weather application.
 - DOM Manipulation
 - Event Listeners
 - Form Validation
+- Fetch API
 
 # Challenges
 
