@@ -277,9 +277,39 @@ button:active {
     text-align: center;
 }
 
-.message {
+.message,
+.loading {
     padding: 15px;
     background-color: #cad4df;
-    color: #b91c1c;
     border-radius: 10px;
+}
+
+.message {
+    height: 65px;
+    color: #b91c1c;
+    display: flex;
+    align-items: center;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+}
+
+.loader {
+    width: 35px;
+    height: 35px;
+    border: 4px solid #dddbde;
+    border-top: 4px solid #3b373b;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
